@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+html,
+
+.datepicker-popper {
+    z-index: 9999 !important;
+}
+body {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+}
