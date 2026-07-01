@@ -77,7 +77,14 @@ export default function CartPanel({
                                 {/* Thumbnail placeholder */}
                                 <div className="p-4 flex-shrink-0">
                                     <div className="w-16 h-16 bg-beige rounded-xl flex items-center justify-center text-2xl">
-                                        🍲
+                                        {item.category === "Main Dishes" ? "🍲"
+                                        : item.category === "Silog Meals" ? "🍳"
+                                        : item.category === "Meryenda"    ? "🍢"
+                                        : item.category === "Sidings"     ? "🥗"
+                                        : item.category === "Rice"        ? "🍚"
+                                        : item.category === "Drinks"      ? "🥤"
+                                        : item.category === "Extras"      ? "➕"
+                                        : "🍽️"}
                                     </div>
                                 </div>
 

@@ -25,8 +25,9 @@ import {
 } from "firebase/firestore";
 
 export const MENU_CATEGORIES = [
-    "Bulalo",
-    "Kare-Kare",
+    "Main Dishes",
+    "Silog Meals",
+    "Meryenda",
     "Sidings",
     "Rice",
     "Drinks",
@@ -36,12 +37,13 @@ export const MENU_CATEGORIES = [
 // ── ADD-ONS per category (for the Till cart) ──────────────────────────────
 // These appear as checkboxes when a cashier expands a cart item.
 export const CATEGORY_ADDONS = {
-    "Bulalo":   { "Extra Bone Marrow": 50, "Extra Broth": 30, "Add Corn": 25, "Add Pechay": 20 },
-    "Kare-Kare":{ "Extra Bagoong": 20, "Extra Peanut Sauce": 30, "Add Eggplant": 25 },
-    "Sidings":  { "Extra Sauce": 20 },
-    "Drinks":   { "Extra Ice": 0, "Add Sugar": 0 },
-    "Extras":   {},
-    "Rice":     {},
+    "Main Dishes":  { "Extra Rice": 30, "Extra Sauce": 20, "Add Egg": 25 },
+    "Silog Meals":  { "Extra Rice": 30, "Add Egg": 25, "Extra Ulam": 50 },
+    "Meryenda":     { "Extra Rice": 30, "Extra Ulam": 30 },
+    "Sidings":      { "Extra Sauce": 20 },
+    "Drinks":       { "Extra Ice": 0, "Add Sugar": 0 },
+    "Extras":       {},
+    "Rice":         {},
 };
 
 const menuItemsRef = collection(db, "menuItems");

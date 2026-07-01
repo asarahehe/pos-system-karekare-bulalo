@@ -8,6 +8,7 @@ import HomeTwoToneIcon       from "@mui/icons-material/HomeTwoTone";
 import { useState } from "react";
 import GlobalHeader from "./GlobalHeader";
 import { NavLink, useNavigate, Outlet } from "react-router-dom";
+import { useAuth } from "../services/AuthContext";
 
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -18,12 +19,15 @@ export default function Layout() {
     const theme     = useTheme();
     const isMobile  = useMediaQuery(theme.breakpoints.down("sm"));
     const [mobileOpen, setMobileOpen] = useState(false);
+    const { role } = useAuth();
 
     const navItems = [
-        { icon: DashboardTwoToneIcon,      label: "Dashboard",    path: "/dashboard"    },
-        { icon: AreaChartTwoToneIcon,       label: "Graph",        path: "/graph"        },
-        { icon: ReceiptLongTwoToneIcon,     label: "Transactions", path: "/transactions" },
-        { icon: RestaurantMenuTwoToneIcon,  label: "Menu",         path: "/menu"         },
+        { icon: DashboardTwoToneIcon,     label: "Dashboard",    path: "/dashboard"    },
+        { icon: AreaChartTwoToneIcon,      label: "Graph",        path: "/graph"        },
+        { icon: ReceiptLongTwoToneIcon,    label: "Transactions", path: "/transactions" },
+        ...(role === "admin" ? [
+            { icon: RestaurantMenuTwoToneIcon, label: "Menu", path: "/menu" }
+        ] : []),
     ];
 
     const navigation = (

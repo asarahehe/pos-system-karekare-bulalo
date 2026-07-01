@@ -17,6 +17,7 @@ import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 
 import TransactionEditor from "./TransactionEditor";
+import { useAuth } from "../services/AuthContext";
 
 const formatAddon = (str) => str.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase());
 
@@ -33,6 +34,7 @@ export default function TransactionsTable({
   const [selected, setSelected] = useState([]);
   const [expandedRow, setExpandedRow] = useState(null);
   const [editingRow, setEditingRow] = useState(null);
+  const { role } = useAuth();
 
   const rowsWithRef = useMemo(
     () =>
@@ -230,51 +232,69 @@ export default function TransactionsTable({
                   <TableCell>PHP {total.toFixed(2)}</TableCell>
 
                   <TableCell>
-                    <select
-                      value={row.paymentMode || "Cash"}
-                      onChange={(e) => persistInlineUpdate(row, { paymentMode: e.target.value })}
-                      className="border rounded px-2 py-1 text-xs"
-                    >
-                      <option>Cash</option>
-                      <option>QRph</option>
-                      <option>Credit</option>
-                      <option>Card</option>
-                    </select>
+                    {role === "admin" ? (
+                      <select
+                        value={row.paymentMode || "Cash"}
+                        onChange={(e) => persistInlineUpdate(row, { paymentMode: e.target.value })}
+                        className="border rounded px-2 py-1 text-xs"
+                      >
+                        <option>Cash</option>
+                        <option>QRph</option>
+                        <option>Credit</option>
+                        <option>Card</option>
+                      </select>
+                    ) : (
+                      <span className="text-xs">{row.paymentMode || "Cash"}</span>
+                    )}
                   </TableCell>
 
                   <TableCell>
-                    <select
-                      value={row.status || "Completed"}
-                      onChange={(e) => persistInlineUpdate(row, { status: e.target.value })}
-                      className={`text-xs px-2 py-1 rounded ${
+                    {role === "admin" ? (
+                      <select
+                        value={row.status || "Completed"}
+                        onChange={(e) => persistInlineUpdate(row, { status: e.target.value })}
+                        className={`text-xs px-2 py-1 rounded ${
+                          row.status === "Completed"
+                            ? "bg-green-200 text-green-800"
+                            : row.status === "Refunded"
+                              ? "bg-red-200 text-red-700"
+                              : "bg-gray-200"
+                        }`}
+                      >
+                        <option>Completed</option>
+                        <option>Refunded</option>
+                        <option>Cancelled</option>
+                      </select>
+                    ) : (
+                      <span className={`text-xs px-2 py-1 rounded ${
                         row.status === "Completed"
                           ? "bg-green-200 text-green-800"
                           : row.status === "Refunded"
                             ? "bg-red-200 text-red-700"
                             : "bg-gray-200"
-                      }`}
-                    >
-                      <option>Completed</option>
-                      <option>Refunded</option>
-                      <option>Cancelled</option>
-                    </select>
+                      }`}>{row.status}</span>
+                    )}
                   </TableCell>
 
                   <TableCell>
                     <div className="flex gap-3">
-                      <EditTwoToneIcon className="text-green-600 cursor-pointer" onClick={() => setEditingRow(row)} />
-                      <DeleteTwoToneIcon
-                        className="text-red-600 cursor-pointer"
-                        onClick={async () => {
-                          try {
-                            if (onDeleteRow) await onDeleteRow(row);
-                            setRows((prev) => prev.filter((r) => r.id !== row.id));
-                          } catch (error) {
-                            console.error("Failed to delete transaction:", error);
-                            alert("Failed to delete transaction.");
-                          }
-                        }}
-                      />
+                      {role === "admin" && (
+                        <>
+                          <EditTwoToneIcon className="text-green-600 cursor-pointer" onClick={() => setEditingRow(row)} />
+                          <DeleteTwoToneIcon
+                            className="text-red-600 cursor-pointer"
+                            onClick={async () => {
+                              try {
+                                if (onDeleteRow) await onDeleteRow(row);
+                                setRows((prev) => prev.filter((r) => r.id !== row.id));
+                              } catch (error) {
+                                console.error("Failed to delete transaction:", error);
+                                alert("Failed to delete transaction.");
+                              }
+                            }}
+                          />
+                        </>
+                      )}
                     </div>
                   </TableCell>
                 </TableRow>

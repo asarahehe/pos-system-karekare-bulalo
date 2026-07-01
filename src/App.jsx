@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { auth } from "./services/firebase";
+import { useAuth } from "./services/AuthContext";
 
 import Layout       from "./components/Layout";
 import TillLayout   from "./components/TillLayout";
@@ -15,9 +16,10 @@ import Till             from "./pages/Till";
 import TillTransactions from "./pages/TillTransactions";
 import Checkout         from "./components/Checkout";
 
-function PrivateRoute({ children }) {
+function PrivateRoute({ children, requireAdmin = false }) {
     const [loading, setLoading] = useState(true);
     const [user,    setUser   ] = useState(null);
+    const { role } = useAuth();
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((u) => {
@@ -28,7 +30,17 @@ function PrivateRoute({ children }) {
     }, []);
 
     if (loading) return <div className="p-10 text-gray-700">Loading...</div>;
-    return user ? children : <Navigate to="/login" />;
+    if (!user) return <Navigate to="/login" />;
+    if (requireAdmin && role !== "admin") {
+        return (
+            <div className="min-h-screen bg-beige p-6">
+                <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800">
+                    You do not have permission to access this area.
+                </div>
+            </div>
+        );
+    }
+    return children;
 }
 
 export default function App() {
@@ -42,7 +54,7 @@ export default function App() {
             <Route
                 path="/"
                 element={
-                    <PrivateRoute>
+                    <PrivateRoute requireAdmin>
                         <Layout />
                     </PrivateRoute>
                 }

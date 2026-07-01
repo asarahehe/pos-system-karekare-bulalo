@@ -49,7 +49,15 @@ export default function TillProducts({ inventory = [], addToCart }) {
                                         : "bg-transparent text-gray-700 border-gray-400 hover:border-gray-600"}
                                 `}
                             >
-                                {cat}
+                                {({
+                                    "Main Dishes": "🍲",
+                                    "Silog Meals": "🍳",
+                                    "Meryenda":    "🍢",
+                                    "Sidings":     "🥗",
+                                    "Rice":        "🍚",
+                                    "Drinks":      "🥤",
+                                    "Extras":      "➕",
+                                })[cat] || "🍽️"} {cat}
                             </button>
                         );
                     })}

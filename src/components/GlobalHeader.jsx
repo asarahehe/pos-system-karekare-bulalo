@@ -9,6 +9,7 @@ import DashboardTwoToneIcon from "@mui/icons-material/DashboardTwoTone";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import IconButton from "@mui/material/IconButton";
+import { useAuth } from "../services/AuthContext";
 
 export default function GlobalHeader({ onMenuClick }) {
 
@@ -17,6 +18,7 @@ export default function GlobalHeader({ onMenuClick }) {
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const { role } = useAuth();
 
     const inTillMode =
         location.pathname.startsWith("/till") ||
@@ -71,6 +73,9 @@ export default function GlobalHeader({ onMenuClick }) {
 
                 {/* RIGHT SIDE (HEADER ACTIONS) */}
                 <div className="flex items-center gap-3">
+                    <div className="rounded-full border border-white/40 bg-white/10 px-3 py-1 text-sm font-medium uppercase tracking-wide">
+                        {role === "admin" ? "Admin" : role === "cashier" ? "Cashier" : "User"}
+                    </div>
 
                     <button
                         onClick={handleToggle}

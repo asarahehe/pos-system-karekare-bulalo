@@ -14,26 +14,30 @@ export default function MenuItemEditor({
     onClose,
     onSubmit,
 }) {
-    const defaultForm = {
-        stockCode:  "",
-        name:       "",
-        category:   MENU_CATEGORIES[0],
-        description:"",
-        stock:      1,
-        price:      "",
-        defaultQty: 1,
-    };
+const generateStockCode = () => {
+    return Math.random().toString(36).substring(2, 6).toUpperCase();
+};
+
+const defaultForm = {
+    stockCode:  generateStockCode(),
+    name:       "",
+    category:   MENU_CATEGORIES[0],
+    description:"",
+    stock:      1,
+    price:      "",
+    defaultQty: 1,
+};
 
     const [form,  setForm ] = useState(defaultForm);
     const [error, setError] = useState("");
 
     // Reset when opening in Add mode
-    useEffect(() => {
-        if (open && mode === "add") {
-            setForm(defaultForm);
-            setError("");
-        }
-    }, [open, mode]);
+ useEffect(() => {
+    if (open && mode === "add") {
+        setForm({ ...defaultForm, stockCode: generateStockCode() });
+        setError("");
+    }
+}, [open, mode]);
 
     // Load data in Edit mode
     useEffect(() => {
