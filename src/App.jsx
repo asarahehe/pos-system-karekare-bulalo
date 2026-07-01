@@ -1,6 +1,6 @@
 // src/App.jsx
 import { useEffect, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Link, Routes, Route, Navigate } from "react-router-dom";
 import { auth } from "./services/firebase";
 import { useAuth } from "./services/AuthContext";
 
@@ -33,9 +33,15 @@ function PrivateRoute({ children, requireAdmin = false }) {
     if (!user) return <Navigate to="/login" />;
     if (requireAdmin && role !== "admin") {
         return (
-            <div className="min-h-screen bg-beige p-6">
-                <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800">
-                    You do not have permission to access this area.
+            <div className="min-h-screen bg-beige p-6 flex items-center justify-center">
+                <div className="rounded-xl border border-amber-300 bg-amber-50 p-5 text-sm text-amber-800 max-w-md w-full text-center">
+                    <p className="mb-4">You do not have permission to access this area.</p>
+                    <Link
+                        to="/till"
+                        className="inline-flex items-center justify-center rounded-lg bg-iris-80 px-4 py-2 text-white hover:bg-iris-60 transition"
+                    >
+                        Back to Till
+                    </Link>
                 </div>
             </div>
         );
