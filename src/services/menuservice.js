@@ -37,11 +37,11 @@ export const MENU_CATEGORIES = [
 // ── ADD-ONS per category (for the Till cart) ──────────────────────────────
 // These appear as checkboxes when a cashier expands a cart item.
 export const CATEGORY_ADDONS = {
-    "Main Dishes":  { "Extra Rice": 30, "Extra Sauce": 20, "Add Egg": 25 },
-    "Silog Meals":  { "Extra Rice": 30, "Add Egg": 25, "Extra Ulam": 50 },
-    "Meryenda":     { "Extra Rice": 30, "Extra Ulam": 30 },
-    "Sidings":      { "Extra Sauce": 20 },
-    "Drinks":       { "Extra Ice": 0, "Add Sugar": 0 },
+    "Main Dishes":  {},
+    "Silog Meals":  {},
+    "Meryenda":     {},
+    "Sidings":      {},
+    "Drinks":       {},
     "Extras":       {},
     "Rice":         {},
 };

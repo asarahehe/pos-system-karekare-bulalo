@@ -38,7 +38,11 @@ export default function TillTransactions() {
                         : "",
 
                     status:t.status || "Complete",
-
+                    total:t.total || 0,
+                    discountType:t.discountType || null,
+                    discountPercent:t.discountPercent || 0,
+                    vat:t.vat || 0,
+                    payment:t.payment || "Cash",
                     items:(t.items || []).map(item=>({
                         name:item.name,
                         quantity:item.qty || item.quantity || 1,

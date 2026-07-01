@@ -173,12 +173,12 @@ export default function TransactionsTable({
             {displayedRows.map((row) => {
               const isExpanded = expandedRow === row.id;
               const itemCount = row.items?.reduce((s, i) => s + (i.quantity || 0), 0) || 0;
-              const total =
-                row.items?.reduce(
-                  (sum, i) =>
-                    sum + i.quantity * i.price + (i.addOns?.reduce((aSum, addon) => aSum + (addon.price || 0), 0) || 0),
-                  0
-                ) || 0;
+              const total = typeof row.total === "number"
+                ? row.total
+                : row.items?.reduce(
+                    (sum, i) => sum + (i.price || 0) * (i.quantity || 1),
+                    0
+                  ) || 0;
 
               return (
                 <TableRow hover key={row.id} selected={selected.includes(row.id)}>
@@ -229,7 +229,16 @@ export default function TransactionsTable({
 
                   <TableCell>{itemCount}</TableCell>
                   <TableCell>{row.date}</TableCell>
-                  <TableCell>PHP {total.toFixed(2)}</TableCell>
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <span>₱{total.toFixed(2)}</span>
+                      {row.discountType && (
+                        <span className="text-xs text-green-600">
+                          {row.discountType} ({row.discountPercent * 100}% off)
+                        </span>
+                      )}
+                    </div>
+                  </TableCell>
 
                   <TableCell>
                     {role === "admin" ? (

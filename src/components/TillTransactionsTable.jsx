@@ -28,7 +28,9 @@ export default function TillTransactionsTable({ rows = [] }) {
                 <TableBody>
                     {rows.map(row => {
                         const qty = row.items?.reduce((s, i) => s + (i.quantity || 0), 0) || 0;
-                        const price = row.items?.reduce((s, i) => s + (i.price * i.quantity), 0) || 0;
+                        const price = typeof row.total === "number"
+                            ? row.total
+                            : row.items?.reduce((s, i) => s + (i.price * i.quantity), 0) || 0;
                         const items = row.items?.slice(0, 2).map(i => i.name).join(", ");
                         const moreCount = row.items?.length > 2 ? ` +${row.items.length - 2} more` : "";
                         return (
@@ -39,7 +41,16 @@ export default function TillTransactionsTable({ rows = [] }) {
                                 </TableCell>
                                 <TableCell sx={{ paddingLeft: "8px" }}>{items}{moreCount}</TableCell>
                                 <TableCell sx={{ textAlign: "right" }}>{qty}</TableCell>
-                                <TableCell sx={{ textAlign: "right" }}>₱{price.toFixed(2)}</TableCell>
+                                <TableCell sx={{ textAlign: "right" }}>
+                                    <div className="flex flex-col items-end">
+                                        <span>₱{price.toFixed(2)}</span>
+                                        {row.discountType && (
+                                            <span className="text-xs text-green-600">
+                                                {row.discountType} ({(row.discountPercent * 100)}% off)
+                                            </span>
+                                        )}
+                                    </div>
+                                </TableCell>
                             </TableRow>
                         );
                     })}

@@ -19,7 +19,9 @@ export default function Login() {
             const cred = await signInWithEmailAndPassword(auth, email, password);
             const snap = await getDoc(doc(db, "users", cred.user.uid));
             if (!snap.exists()) throw new Error("User record not found in Firestore");
-            navigate("/dashboard");
+
+            const role = snap.data().role || "cashier";
+            navigate(role === "admin" ? "/dashboard" : "/till");
         } catch (err) {
             console.error(err);
             setError(err.message || "Login failed");
