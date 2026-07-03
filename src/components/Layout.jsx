@@ -43,23 +43,26 @@ export default function Layout() {
             </div>
 
             <nav className="flex flex-col gap-3">
-                {navItems.map(({ icon: Icon, label, path }, idx) => (
-                    <NavLink
-                        key={idx}
-                        to={path}
-                        onClick={() => setMobileOpen(false)}
-                        className={({ isActive }) => `
-                            flex items-center gap-3 px-4 py-3 rounded-xl font-medium
-                            text-iris-80 transition
-                            ${isActive
-                                ? "bg-linear-to-r from-wine-100 to-wine-80 text-white shadow"
-                                : "bg-white shadow hover:bg-iris-80/10"}
-                        `}
-                    >
-                        <Icon fontSize="small" />
-                        {label}
-                    </NavLink>
-                ))}
+                {navItems.map(({ icon, label, path }, idx) => {
+                    const IconComponent = icon;
+                    return (
+                        <NavLink
+                            key={idx}
+                            to={path}
+                            onClick={() => setMobileOpen(false)}
+                            className={({ isActive }) => `
+                                flex items-center gap-3 px-4 py-3 rounded-xl font-medium
+                                text-iris-80 transition
+                                ${isActive
+                                    ? "bg-linear-to-r from-wine-100 to-wine-80 text-white shadow"
+                                    : "bg-white shadow hover:bg-iris-80/10"}
+                            `}
+                        >
+                            <IconComponent fontSize="small" />
+                            {label}
+                        </NavLink>
+                    );
+                })}
             </nav>
         </>
     );

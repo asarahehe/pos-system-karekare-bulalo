@@ -7,7 +7,7 @@ import {
 import { db } from "../services/firebase.js";
 import ReceiptModal from "./ReceiptModal";
 
-export default function Checkout({ cart, subtotal, discount, setDiscount, vat, total, close, onSuccess }) {
+export default function Checkout({ cart, subtotal, discount, setDiscount, vat, total, orderType, close, onSuccess }) {
     const [paymentMethod, setPaymentMethod] = useState("Cash");
     const [loading,       setLoading      ] = useState(false);
     const [receipt,       setReceipt      ] = useState(null);
@@ -56,6 +56,7 @@ export default function Checkout({ cart, subtotal, discount, setDiscount, vat, t
                 time:            serverTimestamp(),
                 status:          "Completed",
                 payment:         paymentMethod,
+                orderType:       orderType || "Dine In",
                 items:           cart.map((i) => ({
                     inventoryId: i.id,
                     name:        i.name,
@@ -83,6 +84,7 @@ export default function Checkout({ cart, subtotal, discount, setDiscount, vat, t
                 refID: orderRefId,
                 time: new Date(),
                 payment: paymentMethod,
+                orderType: orderType || "Dine In",
                 items: cart.map((i) => ({ name: i.name, price: i.price, qty: i.qty, addOns: i.addOns || [] })),
                 subtotal,
                 discountType: discount,

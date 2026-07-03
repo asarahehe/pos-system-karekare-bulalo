@@ -54,6 +54,7 @@ export default function Transactions() {
             rawDate,
             date: rawDate ? rawDate.toLocaleString() : "",
             paymentMode: t.payment || "Cash",
+            orderType: t.orderType || "Dine In",
             status: t.status || "Completed",
             total: t.total || 0,
             discountType: t.discountType || null,

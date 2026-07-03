@@ -122,7 +122,7 @@ export default function TransactionEditor({ open, transaction, onClose, onSave }
                 </div>
 
                 {/* RIGHT: META */}
-                <div className="flex flex-col gap-4 w-60 min-w-[240px] pl-4 border-l border-gray-300 pb-20">
+                <div className="flex flex-col gap-4 w-60 min-w-60 pl-4 border-l border-gray-300 pb-20">
                     <div className="flex flex-col gap-1">
                         <label className="font-medium text-gray-700 text-sm">Ref ID:</label>
                         <input

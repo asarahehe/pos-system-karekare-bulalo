@@ -146,12 +146,13 @@ export default function TransactionsTable({
               </TableCell>
               {[
                 { key: "id", label: "Ref ID", width: 120 },
-                { key: "items", label: "Items", width: 300 },
+                { key: "items", label: "Items", width: 280 },
                 { key: "itemCount", label: "Qty", width: 60 },
                 { key: "date", label: "Time", width: 140 },
-                { key: "total", label: "Total", width: 120 },
-                { key: "paymentMode", label: "Payment", width: 100 },
-                { key: "status", label: "Status", width: 100 },
+                { key: "orderType", label: "Order Type", width: 100 },
+                { key: "total", label: "Total", width: 100 },
+                { key: "paymentMode", label: "Payment", width: 90 },
+                { key: "status", label: "Status", width: 90 },
                 { key: "actions", label: "", width: 80 },
               ].map((col) => (
                 <TableCell key={col.key} sx={{ width: col.width }}>
@@ -229,6 +230,9 @@ export default function TransactionsTable({
 
                   <TableCell>{itemCount}</TableCell>
                   <TableCell>{row.date}</TableCell>
+                  <TableCell>
+                    <span className="px-2 py-1 bg-iris-80/10 text-iris-80 rounded text-xs font-medium">{row.orderType || "Dine In"}</span>
+                  </TableCell>
                   <TableCell>
                     <div className="flex flex-col">
                       <span>₱{total.toFixed(2)}</span>

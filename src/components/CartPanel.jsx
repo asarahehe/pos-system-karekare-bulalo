@@ -21,6 +21,13 @@ export default function CartPanel({
     const [orderType,    setOrderType   ] = useState("Dine In");
     const [showCheckout, setShowCheckout] = useState(false);
 
+    const orderTypes = ["Dine In", "Take Out", "Delivery"];
+    const cycleOrderType = () => {
+        const currentIdx = orderTypes.indexOf(orderType);
+        const nextIdx = (currentIdx + 1) % orderTypes.length;
+        setOrderType(orderTypes[nextIdx]);
+    };
+
     const discountRates = { PWD: 0.2, Student: 0.1, Senior: 0.2 };
 
     const subtotal = cart.reduce((sum, item) => {
@@ -41,8 +48,8 @@ export default function CartPanel({
                 <div className="font-semibold text-lg">Order Details</div>
                 <div className="flex gap-2">
                     <button
-                        onClick={() => setOrderType((p) => p === "Dine In" ? "Take Out" : "Dine In")}
-                        className="px-4 py-1.5 rounded-xl border hover:bg-gray-100 transition text-sm"
+                        onClick={cycleOrderType}
+                        className="px-4 py-1.5 rounded-xl border hover:bg-gray-100 transition text-sm font-semibold text-iris-80"
                     >
                         {orderType}
                     </button>
@@ -217,6 +224,7 @@ export default function CartPanel({
                     setDiscount={setDiscount}
                     vat={vat}
                     total={total}
+                    orderType={orderType}
                     close={() => setShowCheckout(false)}
                     onSuccess={() => abortOrder({ resetOnly: true })}
                 />

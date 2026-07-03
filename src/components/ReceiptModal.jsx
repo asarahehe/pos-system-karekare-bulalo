@@ -10,6 +10,7 @@ export default function ReceiptModal({ open, receipt, onClose }) {
         refID,
         time,
         payment,
+        orderType,
         items = [],
         subtotal = 0,
         discountType,
@@ -50,10 +51,14 @@ export default function ReceiptModal({ open, receipt, onClose }) {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-3 gap-4">
                         <div>
                             <div className="text-xs uppercase text-gray-500">Payment method</div>
                             <div className="font-semibold capitalize">{payment || "Cash"}</div>
+                        </div>
+                        <div>
+                            <div className="text-xs uppercase text-gray-500">Order type</div>
+                            <div className="font-semibold">{orderType || "Dine In"}</div>
                         </div>
                         <div>
                             <div className="text-xs uppercase text-gray-500">Receipt type</div>
