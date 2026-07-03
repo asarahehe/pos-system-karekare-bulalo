@@ -155,7 +155,7 @@ export default function Transactions() {
               <div className="flex items-center gap-3 whitespace-nowrap">
                 <span className="text-2xl font-semibold text-iris-100">Transactions</span>
                 <span className="text-gray-800 text-lg">&gt;&gt;</span>
-                <span className="text-lg text-gray-600">View and manage transaction records</span>
+                <span className="text-lg text-gray-600">Audit log for POS activity and payment history</span>
               </div>
             </div>
           </div>

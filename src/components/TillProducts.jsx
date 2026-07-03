@@ -51,6 +51,8 @@ export default function TillProducts({ inventory = [], addToCart }) {
                             >
                                 {({
                                     "Main Dishes": "🍲",
+                                    "Side Dishes": "🍟",
+                                    "Desserts":    "🍰",
                                     "Silog Meals": "🍳",
                                     "Meryenda":    "🍢",
                                     "Sidings":     "🥗",
@@ -99,7 +101,7 @@ export default function TillProducts({ inventory = [], addToCart }) {
                                 onClick={() => addToCart(item)}
                                 disabled={item.stock <= 0}
                                 className={`
-                                    w-10 h-10 rounded-lg flex items-center justify-center transition flex-shrink-0
+                                    w-10 h-10 rounded-lg flex items-center justify-center transition shrink-0
                                     ${item.stock <= 0
                                         ? "bg-gray-300 cursor-not-allowed"
                                         : "bg-iris-80 hover:bg-iris-60"}

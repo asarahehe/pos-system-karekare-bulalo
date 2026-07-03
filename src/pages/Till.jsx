@@ -100,7 +100,7 @@ export default function Till() {
             </div>
 
             {/* RIGHT: CART */}
-            <div className="w-full lg:w-[440px] flex-shrink-0">
+            <div className="w-full lg:w-110 shrink-0">
                 <CartPanel
                     cart={cart}
                     updateQty={updateQty}

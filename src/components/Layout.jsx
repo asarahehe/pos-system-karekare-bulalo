@@ -23,9 +23,9 @@ export default function Layout() {
 
     const navItems = [
         { icon: DashboardTwoToneIcon,     label: "Dashboard",    path: "/dashboard"    },
-        { icon: AreaChartTwoToneIcon,      label: "Graph",        path: "/graph"        },
+        { icon: AreaChartTwoToneIcon,      label: "Diagrams",     path: "/graph"        },
         { icon: ReceiptLongTwoToneIcon,    label: "Transactions", path: "/transactions" },
-        ...(role === "admin" ? [
+        ...(role === "admin" || role === "owner" ? [
             { icon: RestaurantMenuTwoToneIcon, label: "Menu", path: "/menu" }
         ] : []),
     ];

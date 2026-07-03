@@ -2,13 +2,16 @@
 import { useState } from "react";
 import {
     collection, serverTimestamp, writeBatch,
-    doc, increment, getDoc,
+    doc, increment, getDoc, getDocs,
 } from "firebase/firestore";
 import { db } from "../services/firebase.js";
+import ReceiptModal from "./ReceiptModal";
 
 export default function Checkout({ cart, subtotal, discount, setDiscount, vat, total, close, onSuccess }) {
     const [paymentMethod, setPaymentMethod] = useState("Cash");
     const [loading,       setLoading      ] = useState(false);
+    const [receipt,       setReceipt      ] = useState(null);
+    const [showReceipt,   setShowReceipt  ] = useState(false);
 
     const discountRates   = { PWD: 0.2, Student: 0.1, Senior: 0.2 };
     const discountPercent = discount ? discountRates[discount] : 0;
@@ -46,9 +49,10 @@ export default function Checkout({ cart, subtotal, discount, setDiscount, vat, t
             // 2. Batch write: transaction + stock decrement
             const batch = writeBatch(db);
 
+            const orderRefId = `ORD-${Date.now()}`;
             const txRef = doc(collection(db, "transactions"));
             batch.set(txRef, {
-                refID:           `ORD-${Date.now()}`,
+                refID:           orderRefId,
                 time:            serverTimestamp(),
                 status:          "Completed",
                 payment:         paymentMethod,
@@ -75,9 +79,20 @@ export default function Checkout({ cart, subtotal, discount, setDiscount, vat, t
             });
 
             await batch.commit();
-            alert("Transaction Completed!");
-            if (onSuccess) onSuccess();
-            close();
+            const newReceipt = {
+                refID: orderRefId,
+                time: new Date(),
+                payment: paymentMethod,
+                items: cart.map((i) => ({ name: i.name, price: i.price, qty: i.qty, addOns: i.addOns || [] })),
+                subtotal,
+                discountType: discount,
+                discountPercent,
+                vat: vatValue,
+                total: totalValue,
+            };
+            setReceipt(newReceipt);
+            setShowReceipt(true);
+            alert("Transaction Completed! Receipt is ready.");
 
         } catch (err) {
             console.error(err);
@@ -88,8 +103,8 @@ export default function Checkout({ cart, subtotal, discount, setDiscount, vat, t
     };
 
     return (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-            <div className="bg-white rounded-2xl shadow-2xl p-6 w-[480px]">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+            <div className="w-full max-w-sm bg-white rounded-2xl shadow-2xl p-6">
                 <h2 className="text-xl font-bold mb-5">Checkout</h2>
 
                 {/* PAYMENT METHOD */}
@@ -157,6 +172,16 @@ export default function Checkout({ cart, subtotal, discount, setDiscount, vat, t
                     </button>
                 </div>
             </div>
+            <ReceiptModal
+                open={showReceipt}
+                receipt={receipt}
+                onClose={() => {
+                    setShowReceipt(false);
+                    setReceipt(null);
+                    if (onSuccess) onSuccess();
+                    close();
+                }}
+            />
         </div>
     );
 }

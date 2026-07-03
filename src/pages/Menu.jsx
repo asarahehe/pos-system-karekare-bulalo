@@ -157,7 +157,7 @@ export default function Menu() {
                         {loading ? (
                             <div className="p-10 text-center text-gray-500">Loading menu...</div>
                         ) : (
-                            <div className="min-w-[800px]">
+                            <div className="min-w-200">
                                 <MenuTable
                                     rows={filteredRows}
                                     page={page}

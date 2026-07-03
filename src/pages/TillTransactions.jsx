@@ -66,7 +66,7 @@ export default function TillTransactions() {
         page*rowsPerPage+rowsPerPage
     );
 
-    return(
+    return (
 
         <div className="flex flex-col h-full">
 
@@ -81,32 +81,17 @@ export default function TillTransactions() {
                         <div className="inline-block bg-white/60 backdrop-blur-lg border border-gray-200 border-b-0 rounded-t-xl px-10 py-4">
 
                             <div className="flex items-center gap-3 whitespace-nowrap">
-
-<span className="text-2xl font-semibold text-iris-100">
-Till Transactions
-</span>
-
+                                <span className="text-2xl font-semibold text-iris-100">Till Transactions</span>
                                 <span className="text-gray-800 text-lg">››</span>
-
-                                <span className="text-lg text-gray-600">
-Live POS transaction feed
-</span>
-
+                                <span className="text-lg text-gray-600">POS audit log and transaction feed</span>
                             </div>
-
                         </div>
 
-                    </div>
+                        <TillTransactionsTable rows={paginatedRows} />
 
-                    {/* TABLE BOX */}
-
-                    <div className="bg-white/95 border border-gray-200 rounded-tr-xl rounded-bl-xl rounded-br-xl px-8 py-5 shadow-sm">
-
-                        <TillTransactionsTable rows={paginatedRows}/>
+                        <div className="bg-beige rounded-b-xl h-12 border-t border-gray-100"></div>
 
                     </div>
-
-                    <div className="bg-beige rounded-b-xl h-12 border-t border-gray-100"></div>
 
                 </div>
 
@@ -117,23 +102,21 @@ Live POS transaction feed
             <div className="sticky bottom-0 bg-beige border-t border-gray-200 flex justify-between items-center px-6 py-1 z-10">
 
                 <div className="text-gray-600 text-sm">
-
-                    Showing {page*rowsPerPage+1}–
-                    {Math.min((page+1)*rowsPerPage,rows.length)} of {rows.length}
-
+                    Showing {page * rowsPerPage + 1}–
+                    {Math.min((page + 1) * rowsPerPage, rows.length)} of {rows.length}
                 </div>
 
                 <TablePagination
                     component="div"
                     count={rows.length}
                     page={page}
-                    onPageChange={(e,newPage)=>setPage(newPage)}
+                    onPageChange={(e, newPage) => setPage(newPage)}
                     rowsPerPage={rowsPerPage}
-                    onRowsPerPageChange={(e)=>{
-                        setRowsPerPage(parseInt(e.target.value,10));
+                    onRowsPerPageChange={(e) => {
+                        setRowsPerPage(parseInt(e.target.value, 10));
                         setPage(0);
                     }}
-                    rowsPerPageOptions={[5,10,20]}
+                    rowsPerPageOptions={[5, 10, 20]}
                 />
 
             </div>

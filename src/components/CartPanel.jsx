@@ -34,7 +34,7 @@ export default function CartPanel({
     const total           = subtotal - discountValue + vat;
 
     return (
-        <div className="w-[420px] flex flex-col bg-white rounded-2xl shadow-xl">
+        <div className="w-full flex flex-col bg-white rounded-2xl shadow-xl">
 
             {/* HEADER */}
             <div className="p-4 flex justify-between items-center">
@@ -75,9 +75,11 @@ export default function CartPanel({
                                 onClick={() => hasAddons && setEditingItem(isOpen ? null : item.id)}
                             >
                                 {/* Thumbnail placeholder */}
-                                <div className="p-4 flex-shrink-0">
+                                <div className="p-4 shrink-0">
                                     <div className="w-16 h-16 bg-beige rounded-xl flex items-center justify-center text-2xl">
                                         {item.category === "Main Dishes" ? "🍲"
+                                        : item.category === "Side Dishes" ? "🍟"
+                                        : item.category === "Desserts"    ? "🍰"
                                         : item.category === "Silog Meals" ? "🍳"
                                         : item.category === "Meryenda"    ? "🍢"
                                         : item.category === "Sidings"     ? "🥗"
@@ -92,7 +94,7 @@ export default function CartPanel({
                                     <div className="flex justify-between items-start">
                                         <div>
                                             <div className="font-semibold text-sm">{item.name}</div>
-                                            <div className="text-xs text-gray-500 mt-1 min-h-[16px]">
+                                            <div className="text-xs text-gray-500 mt-1 min-h-4">
                                                 {item.addOns?.length > 0
                                                     ? `Add-ons: ${item.addOns.map((a) => a.name).join(", ")}`
                                                     : hasAddons ? "Tap to add extras" : ""}

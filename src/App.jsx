@@ -20,6 +20,7 @@ function PrivateRoute({ children, requireAdmin = false }) {
     const [loading, setLoading] = useState(true);
     const [user,    setUser   ] = useState(null);
     const { role } = useAuth();
+    const adminAccess = role === "admin" || role === "owner";
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((u) => {
@@ -31,7 +32,7 @@ function PrivateRoute({ children, requireAdmin = false }) {
 
     if (loading) return <div className="p-10 text-gray-700">Loading...</div>;
     if (!user) return <Navigate to="/login" />;
-    if (requireAdmin && role !== "admin") {
+    if (requireAdmin && !adminAccess) {
         return (
             <div className="min-h-screen bg-beige p-6 flex items-center justify-center">
                 <div className="rounded-xl border border-amber-300 bg-amber-50 p-5 text-sm text-amber-800 max-w-md w-full text-center">

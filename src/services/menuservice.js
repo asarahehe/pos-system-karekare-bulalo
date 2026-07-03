@@ -26,6 +26,8 @@ import {
 
 export const MENU_CATEGORIES = [
     "Main Dishes",
+    "Side Dishes",
+    "Desserts",
     "Silog Meals",
     "Meryenda",
     "Sidings",
@@ -34,10 +36,19 @@ export const MENU_CATEGORIES = [
     "Extras",
 ];
 
+export const CATEGORY_LIMITS = {
+    "Main Dishes": 10,
+    "Side Dishes": 5,
+    "Drinks": 5,
+    "Desserts": 5,
+};
+
 // ── ADD-ONS per category (for the Till cart) ──────────────────────────────
 // These appear as checkboxes when a cashier expands a cart item.
 export const CATEGORY_ADDONS = {
     "Main Dishes":  {},
+    "Side Dishes":  {},
+    "Desserts":     {},
     "Silog Meals":  {},
     "Meryenda":     {},
     "Sidings":      {},

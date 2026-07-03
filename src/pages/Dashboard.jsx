@@ -3,19 +3,20 @@ import { useState, useEffect, useMemo } from "react";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "../services/firebase";
 
-import { Line, Pie } from "react-chartjs-2";
+import { Line, Pie, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   ArcElement,
   Tooltip,
   Legend
 } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ArcElement, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Tooltip, Legend);
 
 // Helper to handle status variations (from snippet 1)
 const normalizeStatus = (status) => {
@@ -143,6 +144,25 @@ export default function Dashboard() {
     };
   }, [transactions]);
 
+  const orderPerDishData = useMemo(() => topItemsData, [topItemsData]);
+
+  const paymentMethodData = useMemo(() => {
+    const counts = {};
+    transactions.forEach((t) => {
+      const method = t.payment || "Cash";
+      counts[method] = (counts[method] || 0) + 1;
+    });
+    const labels = Object.keys(counts);
+    return {
+      labels,
+      datasets: [{
+        label: "Transactions by payment",
+        data: labels.map((label) => counts[label]),
+        backgroundColor: ["#3b82f6", "#10b981", "#f97316", "#8b5cf6", "#ef4444"],
+      }],
+    };
+  }, [transactions]);
+
   const latestTransactions = [...transactions].sort((a, b) => (b.rawDate || 0) - (a.rawDate || 0)).slice(0, 5);
 
   return (
@@ -177,10 +197,22 @@ export default function Dashboard() {
             <Line data={lineData} />
           </div>
 
-          {/* Pie Chart */}
+          {/* Item Popularity */}
           <div className="bg-white rounded-lg shadow p-4">
             <h3 className="font-semibold mb-2">Top 5 Popular Items</h3>
             <Pie data={topItemsData} />
+          </div>
+
+          {/* Payment Method Overview */}
+          <div className="bg-white rounded-lg shadow p-4">
+            <h3 className="font-semibold mb-2">Transactions by Payment Method</h3>
+            <Pie data={paymentMethodData} />
+          </div>
+
+          {/* Order per Dish */}
+          <div className="lg:col-span-3 bg-white rounded-lg shadow p-4">
+            <h3 className="font-semibold mb-2">Orders per Dish</h3>
+            <Bar data={orderPerDishData} options={{ responsive: true, plugins: { legend: { display: false }, tooltip: { enabled: true } } }} />
           </div>
 
           {/* Latest Transactions (Stacked under charts on mobile) */}

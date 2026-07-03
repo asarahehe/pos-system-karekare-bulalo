@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import CloseTwoToneIcon   from "@mui/icons-material/CloseTwoTone";
 import AddTwoToneIcon     from "@mui/icons-material/AddTwoTone";
 import EditTwoToneIcon    from "@mui/icons-material/EditTwoTone";
-import { MENU_CATEGORIES } from "../services/menuservice";
+import { CATEGORY_LIMITS, MENU_CATEGORIES } from "../services/menuservice";
 
 export default function MenuItemEditor({
     open,
@@ -69,6 +69,17 @@ const defaultForm = {
         );
         if (duplicate) { setError("Stock code already exists."); return; }
 
+        const limit = CATEGORY_LIMITS[form.category];
+        if (limit) {
+            const currentCount = existingRows.filter(
+                (row) => row.category === form.category && row.id !== initialData?.id
+            ).length;
+            if (currentCount >= limit) {
+                setError(`The ${form.category} category is limited to ${limit} items.`);
+                return;
+            }
+        }
+
         setError("");
         onSubmit({
             ...form,
@@ -84,7 +95,7 @@ const defaultForm = {
             onClick={onClose}
         >
             <div
-                className="bg-white rounded-2xl shadow-2xl w-[440px] p-6 relative"
+                className="w-full max-w-lg bg-white rounded-2xl shadow-2xl p-6 relative"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* CLOSE */}

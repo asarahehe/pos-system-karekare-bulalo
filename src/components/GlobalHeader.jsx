@@ -5,6 +5,8 @@ import MenuTwoToneIcon from "@mui/icons-material/MenuTwoTone";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import DashboardTwoToneIcon from "@mui/icons-material/DashboardTwoTone";
+import { auth } from "../services/firebase";
+import { signOut } from "firebase/auth";
 
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -19,6 +21,16 @@ export default function GlobalHeader({ onMenuClick }) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { role } = useAuth();
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            navigate("/login");
+        } catch (err) {
+            console.error("Logout failed:", err);
+            navigate("/login");
+        }
+    };
 
     const inTillMode =
         location.pathname.startsWith("/till") ||
@@ -74,7 +86,11 @@ export default function GlobalHeader({ onMenuClick }) {
                 {/* RIGHT SIDE (HEADER ACTIONS) */}
                 <div className="flex items-center gap-3">
                     <div className="rounded-full border border-white/40 bg-white/10 px-3 py-1 text-sm font-medium uppercase tracking-wide">
-                        {role === "admin" ? "Admin" : role === "cashier" ? "Cashier" : "User"}
+                        {role === "owner" ? "Owner"
+                            : role === "admin" ? "Admin"
+                            : role === "cashier" ? "Cashier"
+                            : role === "logistics" ? "Logistics"
+                            : "User"}
                     </div>
 
                     <button
@@ -90,7 +106,7 @@ export default function GlobalHeader({ onMenuClick }) {
                     </button>
 
                     <button
-                        onClick={() => navigate("/login")}
+                        onClick={handleLogout}
                         className="flex items-center gap-2 bg-stone-800 text-white px-4 py-2 rounded-lg hover:bg-gray-900 transition"
                     >
                         <ExitToAppTwoToneIcon fontSize="small" />

@@ -4,7 +4,7 @@ A Point-of-Sale system for a Filipino bulalo/kare-kare restaurant, built with Re
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Install dependencies
 ```bash
@@ -26,7 +26,7 @@ npm run dev
 
 ---
 
-## 🔥 Firebase Setup Guide
+## Firebase Setup Guide
 
 ### Step 1 — Create a Firebase project
 1. Go to [console.firebase.google.com](https://console.firebase.google.com)
@@ -66,7 +66,7 @@ After creating a user in Firebase Auth (Step 2), add a matching document in Fire
 
 ---
 
-## 📦 Firestore Collections
+## Firestore Collections
 
 | Collection     | Purpose                              |
 |----------------|--------------------------------------|
@@ -101,7 +101,7 @@ To add/change categories, edit `MENU_CATEGORIES` in `src/services/menuservice.js
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/

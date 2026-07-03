@@ -143,6 +143,12 @@ export default function Graph() {
 
   return (
       <div className="p-6">
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold">Diagrams</h1>
+            <p className="text-sm text-gray-500">Visual diagrams for sales, refunds, and trends.</p>
+          </div>
+        </div>
         {/* Filters */}
         <div className="flex gap-3 mb-6 items-center flex-wrap">
           <span className="font-medium">Range:</span>

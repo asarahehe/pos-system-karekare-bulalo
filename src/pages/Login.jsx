@@ -21,7 +21,7 @@ export default function Login() {
             if (!snap.exists()) throw new Error("User record not found in Firestore");
 
             const role = snap.data().role || "cashier";
-            navigate(role === "admin" ? "/dashboard" : "/till");
+            navigate(role === "admin" || role === "owner" ? "/dashboard" : "/till");
         } catch (err) {
             console.error(err);
             setError(err.message || "Login failed");

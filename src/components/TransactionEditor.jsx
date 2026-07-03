@@ -42,7 +42,7 @@ export default function TransactionEditor({ open, transaction, onClose, onSave }
     return (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50" onClick={onClose}>
             <div
-                className="bg-white rounded-2xl shadow-2xl w-[760px] p-6 relative flex gap-6 max-h-[90vh]"
+                className="w-full max-w-5xl bg-white rounded-2xl shadow-2xl p-6 relative flex gap-6 max-h-[90vh]"
                 onClick={(e) => e.stopPropagation()}
             >
                 <button
@@ -122,7 +122,7 @@ export default function TransactionEditor({ open, transaction, onClose, onSave }
                 </div>
 
                 {/* RIGHT: META */}
-                <div className="flex flex-col gap-4 w-[280px] pl-4 border-l border-gray-300 pb-20">
+                <div className="flex flex-col gap-4 w-60 min-w-[240px] pl-4 border-l border-gray-300 pb-20">
                     <div className="flex flex-col gap-1">
                         <label className="font-medium text-gray-700 text-sm">Ref ID:</label>
                         <input
